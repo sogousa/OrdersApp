@@ -1,0 +1,82 @@
+<%- include('../_partial/_header'); -%>
+<div class="row">
+    <div class="col-md-12 message-container">
+        <form id="submitmessage" action="/messages/add" method="POST">
+            <div class="form-group">
+                <label for="inputContent">Please Enter Messages Below and Click Submit Button</label>
+                <textarea class="form-control" rows="10" cols="20" id="inputContent" placeholder="Messages" name="messages"></textarea>
+            </div>
+            <button id="submitbutton" type="submit" class="btn btn-default" href="#" role="button">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 list-message-container">
+        <form  id="selectcustomer" action="/messages/getorders" method="POST">
+            <div>
+            <label class="select-label" for="optionsSelect">Please Select a Customer and Click Submit to View Orders: </label>
+            </div>
+            <select id="optionsSelect" style="min-height: 32px; min-width:250px" size="1" placeholder="Please Select Customer" name="customerId">
+                <option value="" disabled selected hidden>Please Choose ...</option>
+                <% if(customers) { %>
+                    <% customers.forEach(function(customer){ %>
+                        <option value="<%= customer %>" ><%= customer %> </option>
+                    <% }); %>
+                <%}%>
+            </select>
+            <input type="submit"  id="submitget" class="btn btn-default navbar-btn" value="Submit" />
+
+        </form>
+        
+            <% if(orders && orders.length > 0) { %>
+                <table style="width:100%; margin-top:20px">
+                    <tr>
+                      <th>#</th>
+                      <th>Order No</th>
+                      <th>Date</th>
+                      <th>Total</th>
+                      <th>Number of Lines</th>
+                    </tr>
+                    <% orders.forEach(function(order){ %>
+                        <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                            <td class="expand-button"></td>
+                            <td><%= order.orderNo %></td>
+                            <td><%= order.orderDate %></td>
+                            <td><%= order.orderTotal %></td>
+                            <td><%= order.numOfLines %>
+                            </td>
+                        </tr>
+                        <!-- <tr class="hide-table-padding">
+                            <div id="collapseOne" class="collapse">
+                            <table style="width:100%; margin-top:20px">
+
+                                <tr>
+                                    <th>Line No</th>
+                                    <th>Product Name</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Item Price</th>
+                                    <th>Shipping Method</th>
+                                    <th>Shipping Tier</th>
+                                </tr>
+                                <% order.orderlines.forEach(function(line){ %>
+                                    <td><%= line.lineNo %></td>
+                                    <td><%= line.productName %></td>
+                                    <td><%= line.unitPrice %></td>
+                                    <td><%= line.quantity %></td>
+                                    <td><%= line.totalItemPrice %></td>
+                                    <td><%= line.shippingMethod %></td>
+                                    <td><%= line.shippingTier %></td>
+                                <% }); %>
+                            </table>
+                            </div>
+                             
+                        </tr> -->
+                    <% }); %>
+
+                </table>
+            <%}%>
+        </div>
+     
+</div>
